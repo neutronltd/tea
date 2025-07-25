@@ -3,256 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Texas Elevator Association - Join the Movement</title>
+    <title>Texas Elevator Association</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
-
-        :root {
-            --texas-blue: #002868;
-            --texas-red: #BF0A30;
-            --background-gray: #f0f0f0;
-            --text-dark: #333333;
-            --text-light: #ffffff;
-            --border-color: #cccccc;
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('background-full.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            position: relative;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--background-gray);
-            background-image: url('https://www.transparenttextures.com/patterns/concrete-wall.png');
-            color: var(--text-dark);
+        /* Loader Styles */
+        #loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f7f7f7;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.75s ease;
+        }
+
+        #progress-bar-container {
+            width: 80%;
+            max-width: 400px;
+            height: 30px;
+            border: 2px solid #2c3e50;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                #c0392b,
+                #c0392b 15px,
+                #ffffff 15px,
+                #ffffff 30px,
+                #34568B 30px,
+                #34568B 45px
+            );
+            transition: width 0.1s linear;
+        }
+
+        #loader-percentage {
+            margin-top: 1rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: #2c3e50;
         }
 
         .container {
-            background-color: var(--text-light);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
             max-width: 800px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
+            width: 90%;
+            margin: 4rem auto;
+            padding: 2rem;
             text-align: center;
-            padding: 40px;
-            background-color: #fff;
         }
 
-        .logo-container {
-            max-width: 250px;
-            margin: 0 auto 20px auto;
+        .logo {
+            max-width: 220px;
+            margin-bottom: 2rem;
         }
 
-        .logo-svg {
+        .title-image {
+            max-width: 700px;
             width: 100%;
-            height: auto;
-        }
-        
-        .logo-svg .texas-shape-blue { fill: var(--texas-blue); }
-        .logo-svg .texas-shape-white { fill: var(--text-light); }
-        .logo-svg .texas-shape-red { fill: var(--texas-red); }
-        .logo-svg .elevator-icon { fill: var(--text-light); stroke: var(--texas-blue); stroke-width: 8; }
-
-
-        h1 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 2.8rem;
-            color: var(--texas-blue);
-            margin: 0;
-            line-height: 1.1;
-            text-transform: uppercase;
-        }
-        
-        h2 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.8rem;
-            color: var(--texas-red);
-            margin: 20px 0 10px 0;
-            text-transform: uppercase;
+            margin-bottom: 3rem;
         }
 
-        .intro-text {
+        .content-paragraph {
             font-size: 1.1rem;
             line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-            color: var(--text-dark);
+            max-width: 700px;
+            margin: 3rem auto;
+        }
+
+        .call-to-action {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .board-members {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem 1rem;
+            max-width: 750px;
+            margin: 0 auto 4rem;
+            text-align: center;
+        }
+
+        .member {
+            padding: 1rem;
         }
         
-        .form-container {
-            padding: 40px;
+        .member.placeholder {
+            visibility: hidden;
         }
 
-        .form-grid {
+        .member-name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #c0392b;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .member-title {
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            color: #2c3e50;
+            font-weight: 700;
+            margin-top: 0.25rem;
+        }
+        
+        .form-section {
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid #cccccc;
+        }
+
+        .join-form {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 600px) {
-            .form-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .form-grid .full-width {
-                grid-column: 1 / -1;
-            }
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
         }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
 
         .form-group label {
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: var(--texas-blue);
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="email"],
-        .form-group input[type="tel"] {
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
             font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        .form-group input[type="text"]:focus,
-        .form-group input[type="email"]:focus,
-        .form-group input[type="tel"]:focus {
-            outline: none;
-            border-color: var(--texas-blue);
-            box-shadow: 0 0 0 3px rgba(0, 40, 104, 0.2);
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #2c3e50;
         }
         
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
         .checkbox-group {
+            grid-column: 1 / -1;
             display: flex;
             align-items: center;
-            margin-top: 10px;
+            justify-content: center;
+            margin-top: 1rem;
         }
-        
-        .checkbox-group input[type="checkbox"] {
+
+        .checkbox-group input {
+            margin-right: 0.75rem;
             width: 18px;
             height: 18px;
-            margin-right: 12px;
-            accent-color: var(--texas-red);
         }
         
         .checkbox-group label {
-            margin-bottom: 0;
-            font-weight: 400;
-            color: var(--text-dark);
+            font-size: 1rem;
+            font-weight: 700;
         }
         
         .submit-btn {
-            background-color: var(--texas-red);
-            color: var(--text-light);
+            grid-column: 1 / -1;
+            background-color: #c0392b;
+            color: white;
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             text-transform: uppercase;
-            padding: 15px;
             border: none;
-            border-radius: 8px;
+            padding: 1rem 2rem;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            width: 100%;
-            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
         }
         
         .submit-btn:hover {
-            background-color: #A00828;
-            transform: translateY(-2px);
+            background-color: #a53125;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin-top: 6rem;
+            padding-top: 2.5rem;
+            position: relative;
         }
         
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: #777;
-            background-color: #e9e9e9;
+        .footer-contact .heading {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        
+        .footer-contact .email {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #c0392b;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .footer-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 250px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 1rem;
+                margin: 2rem auto;
+            }
+            .call-to-action {
+                font-size: 1.2rem;
+            }
+            .board-members, .join-form {
+                grid-template-columns: 1fr 1fr;
+            }
+            .footer {
+                margin-top: 4rem;
+            }
+        }
+        @media (max-width: 600px) {
+             .join-form {
+                grid-template-columns: 1fr;
+            }
+            .member.placeholder {
+                display: none;
+            }
         }
 
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header class="header">
-            <div class="logo-container">
-                <svg class="logo-svg" viewBox="0 0 200 190" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <clipPath id="texas-clip">
-                            <path d="M198.8,92.5l-21.3-3.3L165.2,65l-11.4,24.1L129,82.5l-1.1,28.1l-20.6,2.2l-3.3,21.3l-20.6,1.1l-2.2,20.6l-18.4,1.1l-7.7,11.4l-12.8-1.1l-10.7-10.3L23.8,144l-1.1-12.8l-12.8-13.8V92.5L0,72.9l11.7-16l1.1-19.5l11.7-11.7l12.8,1.1l11.7,1.1l10.7,11.7l1.1,12.8l10.7,1.1l12.8-12.8l1.1-13.8l12.8-1.1l12.8-12.8l12.8,1.1l11.7,12.8l1.1,12.8l12.8,1.1l12.8,11.7l1.1,12.8l12.8,1.1l1.1,12.8Z"/>
-                        </clipPath>
-                    </defs>
-                    <g clip-path="url(#texas-clip)">
-                        <rect class="texas-shape-blue" x="0" y="0" width="200" height="95"/>
-                        <rect class="texas-shape-red" x="0" y="95" width="200" height="95"/>
-                    </g>
-                    <path class="texas-shape-white" d="M0,0 H70 V190 H0 Z" clip-path="url(#texas-clip)"/>
-                    <g transform="translate(35, 95) scale(0.3)">
-                       <path class="elevator-icon" d="M100,0 C44.8,0 0,44.8 0,100 L0,260 C0,315.2 44.8,360 100,360 L100,360 C155.2,360 200,315.2 200,260 L200,100 C200,44.8 155.2,0 100,0 Z M150,220 L50,220 L50,140 L150,140 L150,220 Z M120,100 L80,100 L80,60 L120,60 L120,100 Z"/>
-                    </g>
-                </svg>
-            </div>
-            <h1>Texas Elevator Association</h1>
-            <p class="intro-text">Uniting, supporting, and advocating for elevator professionals across the state. Join us today and be part of something built to last!</p>
-        </header>
-
-        <main class="form-container">
-            <h2>Become a Founding Member</h2>
-            <form action="#" method="POST">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="company">Company:</label>
-                        <input type="text" id="company" name="company">
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input type="text" id="title" name="title">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="address">Address:</label>
-                        <input type="text" id="address" name="address">
-                    </div>
-                    <div class="form-group full-width">
-                        <label for="email">Email Address:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group full-width checkbox-group">
-                        <input type="checkbox" id="newsletter" name="newsletter" checked>
-                        <label for="newsletter">Receive email newsletter and association information.</label>
-                    </div>
-                    <div class="form-group full-width">
-                        <button type="submit" class="submit-btn">Join The Movement</button>
-                    </div>
-                </div>
-            </form>
-        </main>
-        
-        <footer class="footer">
-            <p>&copy; 2024 Texas Elevator Association. All Rights Reserved.</p>
-        </footer>
+    <div id="loader-wrapper">
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="loader-percentage">0%</div>
     </div>
+
+    <div class="container">
+        <img src="logo.png" alt="Texas Elevator Association Logo" class="logo" onerror="this.style.display='none'">
+        <img src="tea-title.png" alt="Texas Elevator Association Title" class="title-image" onerror="this.style.display='none'">
+
+        <p class="content-paragraph">
+            We're proud to introduce the Texas Elevator Association (TEA), created by and for elevator professionals across the state. TEA unites, supports, and advocates for those who keep Texas moving, vertically. Whether you're a technician, inspector, contractor, consultant, or supplier, this is your platform for connection, education, and progress. Become a founding member to help shape our future and access valuable resources, networking, and events. Let's rise together and take the Texas elevator industry to new heights.
+        </p>
+
+        <p class="call-to-action">
+            Join us today and be part of something built to last!
+        </p>
+
+        <div class="board-members">
+            <div class="member">
+                <p class="member-name">Bruce Barbre</p>
+                <p class="member-title">President</p>
+            </div>
+            <div class="member">
+                <p class="member-name">Daniel Baltzegar</p>
+                <p class="member-title">Treasurer</p>
+            </div>
+            <div class="member">
+                <p class="member-name">Richard Fitzgerald</p>
+                <p class="member-title">Board Member</p>
+            </div>
+            <div class="member">
+                <p class="member-name">Jason Laney</p>
+                <p class="member-title">Vice President</p>
+            </div>
+            <div class="member">
+                <p class="member-name">Ricky Peters</p>
+                <p class="member-title">Secretary</p>
+            </div>
+            <div class="member">
+                <p class="member-name">Brent Stark</p>
+                <p class="member-title">Board Member</p>
+            </div>
+            <div class="member placeholder"></div>
+             <div class="member">
+                <p class="member-name">Sam Patel</p>
+                <p class="member-title">Board Member</p>
+            </div>
+             <div class="member placeholder"></div>
+        </div>
+
+        <section class="form-section">
+            <form action="#" method="POST" class="join-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company:</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone number:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group full-width">
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address"></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <label for="email">Email address:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="newsletter" name="newsletter" value="yes" checked>
+                    <label for="newsletter">Receive email newsletter and association information</label>
+                </div>
+                <button type="submit" class="submit-btn">Join the movement</button>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-contact">
+                <span class="heading">Contact Us</span>
+                <a href="mailto:jason@texaselevatorassociation.org" class="email">jason@texaselevatorassociation.org</a>
+            </div>
+        </footer>
+
+    </div>
+    
+    <div class="footer-overlay"></div>
+
+    <script>
+        const progressBar = document.getElementById('progress-bar');
+        const percentageText = document.getElementById('loader-percentage');
+        const loaderWrapper = document.getElementById('loader-wrapper');
+        let progress = 0;
+
+        const interval = setInterval(() => {
+            progress += 1;
+            progressBar.style.width = progress + '%';
+            percentageText.innerText = progress + '%';
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loaderWrapper.style.opacity = '0';
+                    setTimeout(() => {
+                        loaderWrapper.style.display = 'none';
+                    }, 750);
+                }, 500);
+            }
+        }, 20);
+    </script>
 
 </body>
 </html>
