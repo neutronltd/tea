@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas Elevator Association - Join the Movement</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;500&display=swap');
+
+        :root {
+            --texas-blue: #002868;
+            --texas-red: #BF0A30;
+            --background-gray: #f0f0f0;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --border-color: #cccccc;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-gray);
+            background-image: url('https://www.transparenttextures.com/patterns/concrete-wall.png');
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--text-light);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px;
+            background-color: #fff;
+        }
+
+        .logo-container {
+            max-width: 250px;
+            margin: 0 auto 20px auto;
+        }
+
+        .logo-svg {
+            width: 100%;
+            height: auto;
+        }
+        
+        .logo-svg .texas-shape-blue { fill: var(--texas-blue); }
+        .logo-svg .texas-shape-white { fill: var(--text-light); }
+        .logo-svg .texas-shape-red { fill: var(--texas-red); }
+        .logo-svg .elevator-icon { fill: var(--text-light); stroke: var(--texas-blue); stroke-width: 8; }
+
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.8rem;
+            color: var(--texas-blue);
+            margin: 0;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+        
+        h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--texas-red);
+            margin: 20px 0 10px 0;
+            text-transform: uppercase;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            color: var(--text-dark);
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .form-grid .full-width {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--texas-blue);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"] {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus {
+            outline: none;
+            border-color: var(--texas-blue);
+            box-shadow: 0 0 0 3px rgba(0, 40, 104, 0.2);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            accent-color: var(--texas-red);
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+            color: var(--text-dark);
+        }
+        
+        .submit-btn {
+            background-color: var(--texas-red);
+            color: var(--text-light);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #A00828;
+            transform: translateY(-2px);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #777;
+            background-color: #e9e9e9;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 200 190" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="texas-clip">
+                            <path d="M198.8,92.5l-21.3-3.3L165.2,65l-11.4,24.1L129,82.5l-1.1,28.1l-20.6,2.2l-3.3,21.3l-20.6,1.1l-2.2,20.6l-18.4,1.1l-7.7,11.4l-12.8-1.1l-10.7-10.3L23.8,144l-1.1-12.8l-12.8-13.8V92.5L0,72.9l11.7-16l1.1-19.5l11.7-11.7l12.8,1.1l11.7,1.1l10.7,11.7l1.1,12.8l10.7,1.1l12.8-12.8l1.1-13.8l12.8-1.1l12.8-12.8l12.8,1.1l11.7,12.8l1.1,12.8l12.8,1.1l12.8,11.7l1.1,12.8l12.8,1.1l1.1,12.8Z"/>
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#texas-clip)">
+                        <rect class="texas-shape-blue" x="0" y="0" width="200" height="95"/>
+                        <rect class="texas-shape-red" x="0" y="95" width="200" height="95"/>
+                    </g>
+                    <path class="texas-shape-white" d="M0,0 H70 V190 H0 Z" clip-path="url(#texas-clip)"/>
+                    <g transform="translate(35, 95) scale(0.3)">
+                       <path class="elevator-icon" d="M100,0 C44.8,0 0,44.8 0,100 L0,260 C0,315.2 44.8,360 100,360 L100,360 C155.2,360 200,315.2 200,260 L200,100 C200,44.8 155.2,0 100,0 Z M150,220 L50,220 L50,140 L150,140 L150,220 Z M120,100 L80,100 L80,60 L120,60 L120,100 Z"/>
+                    </g>
+                </svg>
+            </div>
+            <h1>Texas Elevator Association</h1>
+            <p class="intro-text">Uniting, supporting, and advocating for elevator professionals across the state. Join us today and be part of something built to last!</p>
+        </header>
+
+        <main class="form-container">
+            <h2>Become a Founding Member</h2>
+            <form action="#" method="POST">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company:</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" name="address">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group full-width checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter" checked>
+                        <label for="newsletter">Receive email newsletter and association information.</label>
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="submit" class="submit-btn">Join The Movement</button>
+                    </div>
+                </div>
+            </form>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2024 Texas Elevator Association. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
