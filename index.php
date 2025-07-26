@@ -1,3 +1,64 @@
+<?php
+// Start a session to handle the success message
+session_start();
+
+// Include the database connection file
+require_once "tea-admin/db.php";
+
+$success_message = "";
+$error_message = "";
+
+// Check if a success message is set in the session (after a redirect)
+if (isset($_SESSION['form_submitted_successfully']) && $_SESSION['form_submitted_successfully'] === true) {
+    $success_message = "Your information has been submitted successfully. We'll be in touch soon.";
+    // Unset the session variable so the message doesn't reappear on refresh
+    unset($_SESSION['form_submitted_successfully']);
+}
+
+// Process form data when the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize and retrieve form data
+    $name = trim($_POST['name']);
+    $company = trim($_POST['company']);
+    $title = trim($_POST['title']);
+    $phone = trim($_POST['phone']);
+    $address = trim($_POST['address']);
+    $email = trim($_POST['email']);
+    // Check if the newsletter checkbox is checked
+    $newsletter_subscribed = isset($_POST['newsletter']) ? 1 : 0; // 1 for true, 0 for false
+
+    // Basic validation
+    if (empty($name) || empty($email)) {
+        $error_message = "Name and Email are required fields.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error_message = "Invalid email format.";
+    } else {
+        // Prepare an insert statement
+        $sql = "INSERT INTO members (name, company, title, phone, address, email, newsletter_subscribed) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        if ($stmt = $conn->prepare($sql)) {
+            // Bind variables to the prepared statement as parameters
+            $stmt->bind_param("ssssssi", $name, $company, $title, $phone, $address, $email, $newsletter_subscribed);
+
+            // Attempt to execute the prepared statement
+            if ($stmt->execute()) {
+                // Set a session flag for success and redirect to the same page
+                // This prevents form resubmission on page refresh
+                $_SESSION['form_submitted_successfully'] = true;
+                header("Location: " . $_SERVER['PHP_SELF'] . "#form-section");
+                exit();
+            } else {
+                $error_message = "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            $stmt->close();
+        }
+    }
+    // Close connection
+    $conn->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +85,6 @@
             position: relative;
         }
 
-        /* Loader Styles */
         #loader-wrapper {
             position: fixed;
             top: 0;
@@ -226,6 +286,63 @@
         .submit-btn:hover {
             background-color: #a53125;
         }
+        
+        .thank-you-container {
+            background-color: rgba(212, 237, 218, 0.95);
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 2rem 3rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        .thank-you-container h2 {
+            font-family: 'Oswald', sans-serif;
+            color: #155724;
+            font-size: 2.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .thank-you-container p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #155724;
+        }
+        .thank-you-container .checkmark-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+        .submit-another-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-another-btn:hover {
+            background-color: #218838;
+        }
+
+        .error-message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem auto;
+            font-weight: bold;
+            text-align: center;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
         .footer {
             display: flex;
@@ -349,38 +466,55 @@
              <div class="member placeholder"></div>
         </div>
 
-        <section class="form-section">
-            <form action="#" method="POST" class="join-form">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
+        <section id="form-section" class="form-section">
+            <?php if (!empty($success_message)): ?>
+                <div class="thank-you-container">
+                    <svg class="checkmark-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle cx="26" cy="26" r="25" fill="none" stroke="#155724" stroke-width="2"/>
+                        <path fill="none" stroke="#155724" stroke-width="3" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                    <h2>Thank You!</h2>
+                    <p><?php echo htmlspecialchars($success_message); ?></p>
+                    <a href="index.php" class="submit-another-btn">Submit Another</a>
                 </div>
-                <div class="form-group">
-                    <label for="company">Company:</label>
-                    <input type="text" id="company" name="company">
-                </div>
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone number:</label>
-                    <input type="tel" id="phone" name="phone">
-                </div>
-                <div class="form-group full-width">
-                    <label for="address">Address:</label>
-                    <textarea id="address" name="address"></textarea>
-                </div>
-                <div class="form-group full-width">
-                    <label for="email">Email address:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="newsletter" name="newsletter" value="yes" checked>
-                    <label for="newsletter">Receive email newsletter and association information</label>
-                </div>
-                <button type="submit" class="submit-btn">Join the movement</button>
-            </form>
+            <?php else: ?>
+                <?php if (!empty($error_message)): ?>
+                    <div class="error-message">
+                        <p><?php echo htmlspecialchars($error_message); ?></p>
+                    </div>
+                <?php endif; ?>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>#form-section" method="POST" class="join-form">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Company:</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone number:</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="address">Address:</label>
+                        <textarea id="address" name="address"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="email">Email address:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter" value="yes" checked>
+                        <label for="newsletter">Receive email newsletter and association information</label>
+                    </div>
+                    <button type="submit" class="submit-btn">Join the movement</button>
+                </form>
+            <?php endif; ?>
         </section>
 
         <footer class="footer">
