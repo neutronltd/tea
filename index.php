@@ -164,11 +164,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-top: 2rem;
             margin-bottom: 4rem;
         }
+        
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
 
         .board-members {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 1.5rem 1rem;
+            gap: 2rem 1rem;
             max-width: 750px;
             margin: 0 auto 4rem;
             text-align: center;
@@ -191,12 +200,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-transform: uppercase;
         }
 
-        .member-title {
+        .member-title, .member-company {
             font-family: 'Lato', sans-serif;
             font-size: 1rem;
             color: #2c3e50;
             font-weight: 700;
             margin-top: 0.25rem;
+            line-height: 1.3;
         }
         
         .form-section {
@@ -346,32 +356,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .footer {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            justify-content: space-between;
+            align-items: flex-end;
+            text-align: left;
             margin-top: 6rem;
-            padding-top: 2.5rem;
+            padding: 2rem 0;
             position: relative;
         }
         
-        .footer-contact .heading {
-            display: block;
+        .footer-left, .footer-right {
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 1.5rem;
-            color: #ffffff;
-            margin-bottom: 0.75rem;
+            color: #fff;
             text-transform: uppercase;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-        }
-        
-        .footer-contact .email {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
+            line-height: 1.4;
             font-size: 1.2rem;
+        }
+
+        .footer-left p, .footer-right p {
+            margin: 0;
+        }
+
+        .footer-left a {
             color: #fff;
             text-decoration: none;
+            font-size: 1.2rem;
             word-break: break-all;
+            font-weight: 700;
+        }
+
+        .footer-right {
+            text-align: right;
         }
         
         .footer-overlay {
@@ -399,10 +415,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             .footer {
                 margin-top: 4rem;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 2rem;
+            }
+            .footer-right {
+                text-align: center;
             }
         }
         @media (max-width: 600px) {
-             .join-form {
+             .join-form, .board-members {
                 grid-template-columns: 1fr;
             }
             .member.placeholder {
@@ -433,37 +456,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Join us today and be part of something built to last!
         </p>
 
+        <h2 class="section-title">Founding Board Members</h2>
         <div class="board-members">
             <div class="member">
                 <p class="member-name">Bruce Barbre</p>
                 <p class="member-title">President</p>
+                <p class="member-company">VDA</p>
             </div>
             <div class="member">
-                <p class="member-name">Daniel Baltzegar</p>
+                <p class="member-name">Dan Baltzegar</p>
                 <p class="member-title">Treasurer</p>
+                <p class="member-company">Vantage</p>
             </div>
             <div class="member">
-                <p class="member-name">Richard Fitzgerald</p>
+                <p class="member-name">Rich Fitzgerald</p>
                 <p class="member-title">Board Member</p>
+                <p class="member-company">SEES, Inc.</p>
             </div>
             <div class="member">
                 <p class="member-name">Jason Laney</p>
                 <p class="member-title">Vice President</p>
+                <p class="member-company">Smartrise Engineering</p>
             </div>
             <div class="member">
                 <p class="member-name">Ricky Peters</p>
                 <p class="member-title">Secretary</p>
+                <p class="member-company">Metro Elevator</p>
             </div>
             <div class="member">
                 <p class="member-name">Brent Stark</p>
                 <p class="member-title">Board Member</p>
+                <p class="member-company">Integrity Elevator Solutions</p>
             </div>
             <div class="member placeholder"></div>
-             <div class="member">
+            <div class="member">
                 <p class="member-name">Sam Patel</p>
                 <p class="member-title">Board Member</p>
+                <p class="member-company">Southwest Elevator Company</p>
             </div>
-             <div class="member placeholder"></div>
+            <div class="member placeholder"></div>
         </div>
 
         <section id="form-section" class="form-section">
@@ -475,7 +506,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </svg>
                     <h2>Thank You!</h2>
                     <p><?php echo htmlspecialchars($success_message); ?></p>
-                    <a href="index.php" class="submit-another-btn">Submit Another</a>
+                    <a href="index.php" class="submit-another-btn">Submit Another Member</a>
                 </div>
             <?php else: ?>
                 <?php if (!empty($error_message)): ?>
@@ -518,9 +549,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </section>
 
         <footer class="footer">
-            <div class="footer-contact">
-                <span class="heading">Contact Us</span>
-                <a href="mailto:jason@texaselevatorassociation.org" class="email">jason@texaselevatorassociation.org</a>
+            <div class="footer-left">
+                <p>EMAIL US TO JOIN THE<br>NEWSLETTER AND MEMBER LIST</p>
+                <a href="mailto:jason@texaselevatorassociation.org">jason@texaselevatorassociation.org</a>
+            </div>
+            <div class="footer-right">
+                <p>PENDING<br>FINAL<br>APPROVAL</p>
             </div>
         </footer>
 
